@@ -82,7 +82,7 @@ const MyProfile = () => {
           <p className="pt-4 text-2xl font-bold text-blue-950">Active Courses</p>
         </div>
 
-        <div className="flex flex-col items-center text-center p-15 bg-white rounded-lg shadow-2xl">
+        <div className="flex flex-col items-center text-center p-20 bg-white rounded-lg shadow-2xl">
           <BiSolidTrophy className="text-5xl mb-2 text-yellow-500" />
           <p className="text-3xl font-bold">{completedCount}</p>
           <p className="pt-4 text-2xl font-bold text-blue-950">Completed Courses</p>

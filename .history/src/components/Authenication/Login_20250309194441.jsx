@@ -3,6 +3,7 @@ import { Navigate, NavLink } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { doSignInWithEmailAndPassword, doSigninWithGoogle } from "@/firebase/auth"; 
 import { auth } from "@/firebase/firebaseConfig"; 
+import { signOut } from "firebase/auth";
 import vector from "../../assets/images/vector.png";
 import logsign from "../../assets/images/logsign.png";
 import logo from "../../assets/images/logo.png";
@@ -50,7 +51,8 @@ const Login = () => {
       {userLoggedIn && <Navigate to="/profile" replace={true} />} 
 
       <div className="flex w-4/5 max-w-4xl rounded-lg overflow-hidden shadow-lg shadow-gray-400 bg-white">
-       
+        
+        {/* Left Side - Login Form */}
         <div className="w-1/2 p-10 flex flex-col justify-center relative">
           <h2 className="text-3xl font-bold mb-2 text-center">Welcome Back!</h2>
           <p className="text-gray-500 text-center mb-4">

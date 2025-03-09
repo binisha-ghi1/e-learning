@@ -70,22 +70,22 @@ const MyProfile = () => {
       </div>
 
       <div className="w-full pt-16 flex flex-wrap justify-center gap-10 pb-20 bg-gray-200">
-        <div className="flex flex-col items-center text-center p-15 bg-white rounded-lg shadow-2xl">
+        <div className="flex flex-col items-center text-center p-20 bg-white rounded-lg shadow-2xl">
           <PiBookOpenTextBold className="text-5xl mb-2 text-blue-500" />
-          <p className="text-3xl  pt-4 font-bold">{enrolledCount}</p>
+          <p className="text-2xl font-bold">{enrolledCount}</p>
           <p className="pt-4 text-2xl font-bold text-blue-950">Enrolled Courses</p>
         </div>
 
-        <div className="flex flex-col items-center text-center p-15 bg-white rounded-lg shadow-2xl">
+        <div className="flex flex-col items-center text-center p-20 bg-white rounded-lg shadow-2xl">
           <RiGraduationCapFill className="text-5xl mb-2 text-green-500" />
-          <p className="text-3xl font-bold">{activeCount}</p>
-          <p className="pt-4 text-2xl font-bold text-blue-950">Active Courses</p>
+          <p className="text-2xl font-bold">{activeCount}</p>
+          <p>Active Courses</p>
         </div>
 
-        <div className="flex flex-col items-center text-center p-15 bg-white rounded-lg shadow-2xl">
+        <div className="flex flex-col items-center text-center p-20 bg-white rounded-lg shadow-2xl">
           <BiSolidTrophy className="text-5xl mb-2 text-yellow-500" />
-          <p className="text-3xl font-bold">{completedCount}</p>
-          <p className="pt-4 text-2xl font-bold text-blue-950">Completed Courses</p>
+          <p className="text-2xl font-bold">{completedCount}</p>
+          <p>Completed Courses</p>
         </div>
       </div>
     </>

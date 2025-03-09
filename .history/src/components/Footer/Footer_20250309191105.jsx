@@ -10,8 +10,9 @@ const Footer = () => {
       className="text-white py-10 px-6"
       style={{ backgroundImage: `url(${navbar})` }}
     >
-    
+      {/* Footer Content */}
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-8 mt-20">
+        {/* Brand Info */}
         <div className="space-y-2">
           <img src={logo} alt="S.T.Tech Logo" className="h-12" />
           <h2 className="text-xl font-bold">S.T.Tech</h2>

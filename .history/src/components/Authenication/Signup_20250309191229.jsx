@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
-import { auth, db } from "@/firebase/firebaseConfig"; 
+import { auth, db } from "@/firebase/firebaseConfig"; // Import auth and db
 import { createUserWithEmailAndPassword } from "firebase/auth"; 
 import { doc, setDoc } from "firebase/firestore"; 
 import curve from "../../assets/images/curve.png";

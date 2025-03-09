@@ -1,6 +1,7 @@
+// src/components/context/usercontext.jsx
 import React, { createContext, useState, useContext } from 'react';
 
-
+// Create the context
 const UserContext = createContext();
 
 

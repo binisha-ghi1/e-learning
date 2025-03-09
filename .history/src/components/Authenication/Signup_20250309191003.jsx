@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
-import { auth, db } from "@/firebase/firebaseConfig"; 
-import { createUserWithEmailAndPassword } from "firebase/auth"; 
-import { doc, setDoc } from "firebase/firestore"; 
+import { auth, db } from "@/firebase/firebaseConfig"; // Import auth and db
+import { createUserWithEmailAndPassword } from "firebase/auth"; // Firebase auth function
+import { doc, setDoc } from "firebase/firestore"; // Firestore functions for writing data
 import curve from "../../assets/images/curve.png";
 import logo from "../../assets/images/logo.png";
 import logsign from "../../assets/images/logsign.png";
@@ -14,11 +14,11 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("")
-  const [isSigningUp, setIsSigningUp] = useState(false)
-  const [user, setUser] = useState(null); 
+  const [errorMessage, setErrorMessage] = useState(""); // Track error messages
+  const [isSigningUp, setIsSigningUp] = useState(false); // Track if signup is in progress
+  const [user, setUser] = useState(null); // Track the signed-in user
 
-  
+  // Listen for auth state changes (user sign-in state)
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
       if (currentUser) {

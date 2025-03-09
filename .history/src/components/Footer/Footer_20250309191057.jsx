@@ -10,8 +10,9 @@ const Footer = () => {
       className="text-white py-10 px-6"
       style={{ backgroundImage: `url(${navbar})` }}
     >
-    
+      {/* Footer Content */}
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-8 mt-20">
+        {/* Brand Info */}
         <div className="space-y-2">
           <img src={logo} alt="S.T.Tech Logo" className="h-12" />
           <h2 className="text-xl font-bold">S.T.Tech</h2>
@@ -22,7 +23,7 @@ const Footer = () => {
           </p>
         </div>
 
-   
+        {/* About Section */}
         <div className="space-y-2 flex flex-col">
           <h2 className="text-lg font-semibold">About</h2>
           <NavLink to="/blog" className="hover:underline">Blog</NavLink>
@@ -33,7 +34,7 @@ const Footer = () => {
           <NavLink to="/terms" className="hover:underline">Terms & Conditions</NavLink>
         </div>
 
-       
+        {/* Links Section */}
         <div className="space-y-2 flex flex-col gap-1.5">
           <h2 className="text-lg font-semibold">Links</h2>
           <NavLink to="/home" className="hover:underline">Home</NavLink>
@@ -43,7 +44,7 @@ const Footer = () => {
           <NavLink to="/about" className="hover:underline">Why Us</NavLink>
         </div>
 
- 
+        {/* Programs Section */}
         <div className="space-y-2">
           <h2 className="text-lg font-semibold">Programs</h2>
           <p className="hover:underline">IT Courses</p>

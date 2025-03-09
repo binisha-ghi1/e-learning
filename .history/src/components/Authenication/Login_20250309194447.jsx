@@ -3,6 +3,7 @@ import { Navigate, NavLink } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { doSignInWithEmailAndPassword, doSigninWithGoogle } from "@/firebase/auth"; 
 import { auth } from "@/firebase/firebaseConfig"; 
+import { signOut } from "firebase/auth";
 import vector from "../../assets/images/vector.png";
 import logsign from "../../assets/images/logsign.png";
 import logo from "../../assets/images/logo.png";
