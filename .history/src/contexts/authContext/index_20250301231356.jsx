@@ -1,0 +1,5 @@
+const AuthContext = React.createContext();
+
+export function AuthProvider ({children}) {
+    const [currentUser, setCurrentUser]
+}
