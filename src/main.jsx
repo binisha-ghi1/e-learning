@@ -11,13 +11,13 @@ const root = createRoot(rootElement);
 
 root.render(
   <StrictMode>
+     <Router>
     <UserProvider>
     <CartProvider >
-      <Router>
         <App />
-      </Router>
       </CartProvider>
     </UserProvider>
+    </Router>
   </StrictMode>
 );
 

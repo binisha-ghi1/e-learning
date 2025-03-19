@@ -33,7 +33,6 @@ const Navbar = ({ cart, wishlist, user}) => {
   }, [user]);
   return (
     <div className="flex flex-row flex-wrap bg-yellow-400 text-xl sticky top-0 z-50 font-oswald py-4 px-6 items-center justify-between">
-      {/* Logo */}
       <div className="flex flex-wrap items-center">
         <img src={logo} alt="S.T.Tech Logo" className="h-10 w-auto" />
         <p className="font-mono text-blue-900">S.T.Tech</p>
