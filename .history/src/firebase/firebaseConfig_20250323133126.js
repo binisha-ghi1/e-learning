@@ -13,8 +13,8 @@ const FirebaseConfig = {
   measurementId: import.meta.env.VITE_MEASUREMENT_ID
 };
 
-console.log(import.meta.env.VITE_API_KEY);
-
+console.log("API Key:", import.meta.env.VITE_API_KEY);
+console.log('Firebase Auth Domain:', import.meta.env.VITE_AUTH_DOMAIN);
 
 const app = initializeApp(FirebaseConfig);
 const auth = getAuth(app);

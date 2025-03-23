@@ -11,10 +11,11 @@ const FirebaseConfig = {
   messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
   appId: import.meta.env.VITE_APP_ID,
   measurementId: import.meta.env.VITE_MEASUREMENT_ID
+
 };
 
-console.log(import.meta.env.VITE_API_KEY);
-
+console.log("API Key:", process.env.REACT_APP_API_KEY); 
+console.log('Firebase Auth Domain:', process.env.REACT_APP_AUTH_DOMAIN);
 
 const app = initializeApp(FirebaseConfig);
 const auth = getAuth(app);
@@ -30,7 +31,6 @@ setPersistence(auth, browserSessionPersistence)
 
 export { auth, db }; 
 export const analytics = getAnalytics(app);
-
 
 
 
