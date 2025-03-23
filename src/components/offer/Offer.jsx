@@ -20,7 +20,7 @@ const Offer = () => {
         <div className="fixed inset-0 bg-opacity-25 flex justify-center items-center z-50">
           <div className="bg-yellow-300 p-4 rounded-2xl text-center w-64 max-w-xs shadow-md shadow-gray-400 relative">
             <button
-              className="absolute -top-2 right-2 text-red-600 text-2xl"
+              className="absolute -top-2 right-2 cursor-pointer text-red-600 text-2xl"
               onClick={closePopup}
             >
               &times;

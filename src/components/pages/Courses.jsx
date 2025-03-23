@@ -179,14 +179,14 @@ const Courses = ({ cart, setCart, wishlist, setWishlist }) => {
   }, [searchQuery, category]);
 
   const addToCart = (course) => {
-    if (!cart.some((item) => item.id === course.id)) {
+    if (!cart.find((item) => item.id === course.id)) {
       setCart([...cart, course]);
       alert(`${course.name} added to cart!`);
     } else {
       alert(`${course.name} is already in the cart.`);
     }
   };
-
+  
   const addToWishlist = (course) => {
     const isAlreadyInWishlist = wishlist.some((item) => item.id === course.id);
   

@@ -1,5 +1,6 @@
 import { useParams, NavLink } from "react-router-dom";
 import { FaStar } from "react-icons/fa6";
+import { LiaStarHalf } from "react-icons/lia";
 import { FiPhoneCall } from "react-icons/fi";
 import { MdOutlineMarkEmailUnread } from "react-icons/md";
 import nancy from '../../assets/images/nancy.png';
@@ -85,54 +86,42 @@ function InstructorDetail() {
       </div>
     );
   }
-
   return (
-    <div className="p-8 flex justify-center bg-gray-100">
-      <div className="bg-gray-200 shadow-xl shadow-blue-950 rounded-2xl w-80 p-6 flex flex-col items-center">
-        <img src={instructor.image} alt={instructor.name} className="w-32 h-32 rounded-full shadow-md" />
-     
-        <h1 className="text-3xl font-bold mt-4">{instructor.name}</h1>
-
-      
-        <div className="flex items-center gap-1 text-yellow-400 text-2xl mt-2">
-          {Array.from({ length: Math.floor(instructor.rating) }, (_, i) => (
-            <FaStar key={i} />
-          ))}
-          <span className="text-blue-950 text-xl font-semibold ml-1">{instructor.rating}</span>
-        </div>
-
-      
-        <p className="mt-4 text-gray-700 text-center">{instructor.bio}</p>
-
-       
-        <div className="mt-4 flex flex-col items-center gap-2">
-          <p className="flex items-center gap-2 text-blue-950">
-          <FiPhoneCall /> {instructor.contact}
-          </p>
-          <p className="flex items-center gap-2 text-blue-950">
-           <MdOutlineMarkEmailUnread /> 
-            <a href={`mailto:${instructor.email}`} className="hover:underline">
-              {instructor.email}
-            </a>
-          </p>
-        </div>
-
-    
-        <h2 className="text-2xl font-semibold mt-6">Courses Taught</h2>
-        <ul className="mt-2 space-y-1 text-center">
-          {instructor.courses.map((course, index) => (
-            <li key={index}>
-              <NavLink to={`/course/${course.id}`} className="text-blue-900 hover:underline">
-                {course.name}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-      </div>
+  <div className="p-8 flex justify-center bg-gray-100">
+  <div className="bg-white shadow-lg rounded-2xl w-80 p-6 flex flex-col items-center">
+    <img src={instructor.image} alt={instructor.name} className="w-32 h-32 rounded-full shadow-md" />
+    <h1 className="text-2xl font-bold mt-4">{instructor.name}</h1>
+    <div className="flex items-center text-yellow-400 mt-2">
+      {Array.from({ length: Math.floor(instructor.rating) }, (_, i) => (
+        <FaStar key={i} />
+      ))}
+      {instructor.rating % 1 !== 0 && <LiaStarHalf />}
+      <span className="ml-2 text-blue-900 font-semibold">{instructor.rating}</span>
     </div>
-  );
+    <p className="mt-4 text-gray-700 text-center">{instructor.bio}</p>
+    <div className="mt-4 text-blue-900 text-center">
+      <p className="flex items-center gap-2"><FiPhoneCall /> {instructor.contact}</p>
+      <p className="flex items-center gap-2">
+        <MdOutlineMarkEmailUnread />
+        <a href={`mailto:${instructor.email}`} className="hover:underline">{instructor.email}</a>
+      </p>
+    </div>
+    <h2 className="text-lg font-semibold mt-6">Courses Taught</h2>
+    <ul className="mt-2 space-y-1 text-center">
+      {instructor.courses.map((course) => (
+        <li key={course.id}>
+          <NavLink to={`/course/${course.id}`} className="text-blue-900 hover:underline">
+            {course.name}
+          </NavLink>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>
+);
 }
 
 export default InstructorDetail;
+
 
 

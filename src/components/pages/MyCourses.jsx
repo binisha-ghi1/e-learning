@@ -26,42 +26,39 @@ const MyCourses = () => {
     if (savedCompleted) setCompletedCourses(JSON.parse(savedCompleted));
   }, []);
 
+  const moveToActive = (course) => {
+    setEnrolledCourses((prev) => prev.filter((c) => c.id !== course.id));
+    setActiveCourses((prev) => [...prev, course]);
 
-  const handleActive = (course) => {
-    const updatedEnrolled = enrolledCourses.filter((c) => c.id !== course.id);
-    const updatedActive = [...activeCourses, course];
-  
-    setEnrolledCourses(updatedEnrolled);
-    setActiveCourses(updatedActive);
-  
-    localStorage.setItem('enrolledCourses', JSON.stringify(updatedEnrolled));
-    localStorage.setItem('activeCourses', JSON.stringify(updatedActive));
+    localStorage.setItem('enrolledCourses', JSON.stringify(enrolledCourses.filter((c) => c.id !== course.id)));
+    localStorage.setItem('activeCourses', JSON.stringify([...activeCourses, course]));
   };
 
- 
-  const handleCompleted = (course) => {
-    const updatedCompleted = [...completedCourses, course];
-    setCompletedCourses(updatedCompleted);
-  
-    localStorage.setItem('completedCourses', JSON.stringify(updatedCompleted));
+  const markAsCompleted = (course) => {
+    setCompletedCourses((prev) => [...prev, course]);
+    localStorage.setItem('completedCourses', JSON.stringify([...completedCourses, course]));
   };
 
+  const removeCourse = (course, source) => {
+    let updateFunction;
+    let storageKey;
 
-  const handleUnenroll = (course, source) => {
-    let updatedCourses;
     if (source === 'enrolled') {
-      updatedCourses = enrolledCourses.filter((c) => c.id !== course.id);
-      setEnrolledCourses(updatedCourses);
-      localStorage.setItem('enrolledCourses', JSON.stringify(updatedCourses));
+      updateFunction = setEnrolledCourses;
+      storageKey = 'enrolledCourses';
     } else if (source === 'active') {
-      updatedCourses = activeCourses.filter((c) => c.id !== course.id);
-      setActiveCourses(updatedCourses);
-      localStorage.setItem('activeCourses', JSON.stringify(updatedCourses));
+      updateFunction = setActiveCourses;
+      storageKey = 'activeCourses';
     } else if (source === 'completed') {
-      updatedCourses = completedCourses.filter((c) => c.id !== course.id);
-      setCompletedCourses(updatedCourses);
-      localStorage.setItem('completedCourses', JSON.stringify(updatedCourses));
+      updateFunction = setCompletedCourses;
+      storageKey = 'completedCourses';
     }
+
+    updateFunction((prev) => {
+      const updatedCourses = prev.filter((c) => c.id !== course.id);
+      localStorage.setItem(storageKey, JSON.stringify(updatedCourses));
+      return updatedCourses;
+    });
   };
 
   return (
@@ -69,36 +66,32 @@ const MyCourses = () => {
       <h1 className="text-3xl text-center mb-8">My Courses</h1>
 
       <div className="flex flex-row justify-center space-x-8 border-b pb-4">
-        <div
-          className={`cursor-pointer text-lg font-semibold ${currentTab === 'enrolled' ? 'text-blue-500' : 'hover:text-blue-500'}`}
-          onClick={() => setCurrentTab('enrolled')}
-        >
-          Enrolled Courses ({enrolledCourses.length})
-        </div>
-        <div
-          className={`cursor-pointer text-lg font-semibold ${currentTab === 'active' ? 'text-blue-500' : 'hover:text-blue-500'}`}
-          onClick={() => setCurrentTab('active')}
-        >
-          Active Courses ({activeCourses.length})
-        </div>
-        <div
-          className={`cursor-pointer text-lg font-semibold ${currentTab === 'completed' ? 'text-blue-500' : 'hover:text-blue-500'}`}
-          onClick={() => setCurrentTab('completed')}
-        >
-          Completed Courses ({completedCourses.length})
-        </div>
+        {['enrolled', 'active', 'completed'].map((tab) => (
+          <div
+            key={tab}
+            className={`cursor-pointer text-lg font-semibold ${currentTab === tab ? 'text-blue-500' : 'hover:text-blue-500'}`}
+            onClick={() => setCurrentTab(tab)}
+          >
+            {tab.charAt(0).toUpperCase() + tab.slice(1)} Courses ({
+              tab === 'enrolled' ? enrolledCourses.length :
+              tab === 'active' ? activeCourses.length :
+              completedCourses.length
+            })
+          </div>
+        ))}
       </div>
 
       <div className="mt-6 bg-gray-100 p-4 rounded-lg">
-        {currentTab === 'enrolled' && <Enrolled enrolledCourses={enrolledCourses} handleActive={handleActive} handleUnenroll={handleUnenroll} />}
-        {currentTab === 'active' && <Active activeCourses={activeCourses} handleCompleted={handleCompleted} />}
-        {currentTab === 'completed' && <Completed completedCourses={completedCourses} handleUnenroll={handleUnenroll} />}
+        {currentTab === 'enrolled' && <Enrolled enrolledCourses={enrolledCourses} moveToActive={moveToActive} removeCourse={removeCourse} />}
+        {currentTab === 'active' && <Active activeCourses={activeCourses} markAsCompleted={markAsCompleted} />}
+        {currentTab === 'completed' && <Completed completedCourses={completedCourses} removeCourse={removeCourse} />}
       </div>
     </div>
   );
 };
 
 export default MyCourses;
+
 
 
 

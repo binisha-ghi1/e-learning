@@ -1,10 +1,11 @@
 import { useParams } from 'react-router-dom';
 import star from '../../assets/images/star.png';
+import { LiaStarHalf } from "react-icons/lia";
 import { useState  } from 'react';
 import Footer from '../Footer/Footer';
-import Navbar from '../Navbar/Navbar';
 
-// Import course images
+
+
 import ui from '../../assets/images/ui.png';
 import python from '../../assets/images/python.png';
 import graphic from '../../assets/images/graphic.png';
@@ -333,12 +334,12 @@ function CourseDetail() {
   };
 
   return (
-    <div className="  ">
-      <div className="relative w-full">
+    <div className=" flex-wrap  ">
+      <div className="relative w-full  flex-wrap ">
         <img src={star} alt="Course Banner" className="w-full shadow-lg" />
-        <div className="absolute top-0 left-0 w-full flex flex-col justify-center p-8 text-white">
+        <div className="absolute top-0 left-0 w-full flex-wrap flex flex-col justify-center p-8 text-white">
           <h1 className="text-3xl font-bold">{course.name}</h1>
-          <p className="italic text-gray-300 mt-2 flex items-center gap-2">
+          <p className="italic text-gray-300 mt-2 flex  flex-wrap items-center gap-2">
             By,
   <img
   src={instructorImages[course.instructor] || "/images/default-avatar.png"}
@@ -350,11 +351,11 @@ function CourseDetail() {
 </p>
           <p className="text-lg font-semibold mt-2">Rs. {course.price}</p>
           <p className="text-lg flex flex-row text-yellow-400 font-semibold mt-2">Ratings:  {course.rating} </p>
-          <p className='flex flex-row text-yellow-400 text-lg pt-2 gap-2'>  <FaStar/> <FaStar/><FaStar/><FaStar/> </p>
+          <p className='flex flex-row text-yellow-400 text-lg pt-2 gap-2'>  <FaStar/> <FaStar/><FaStar/><FaStar/><LiaStarHalf /> </p>
           <p className="pt-4">{course.description}</p>
 
           
-          <div className="absolute top-4 right-50">
+          <div className="absolute   flex-wrap top-4 right-50">
             <img 
               src={course.image} 
               alt={course.name} 
@@ -394,7 +395,7 @@ function CourseDetail() {
     {showMore ? "Show Less" : "Read More"}
   </button>
   </div>
-          {/* Course Video */}
+         
           <div className='flex flex-col border border-black'>
             <h2 className="text-2xl font-bold pl-4 text-blue-950">Course Video</h2>
             {videoId ? (
@@ -412,7 +413,7 @@ function CourseDetail() {
           </div>
         </div>
       </div>
-      <div className=' bg-gray-100 flex flex-row gap-5 mb-20 justify-around '>
+      <div className=' bg-gray-100 flex flex-wrap flex-row gap-5 mb-20 justify-around '>
       <div className='flex flex-row items-center justify-center gap-20'>   
       <div className="mt-10 flex flex-col ">
         <h2 className="text-2xl font-bold">Syllabus</h2>
@@ -443,7 +444,7 @@ function CourseDetail() {
             </button>
           </div>
       </div>
-      <div className='flex mt-15'>
+      <div className='flex m-10'>
         <h1 className='pt-15 pl-5 pr-5 pb-5 text-2xl rounded-2xl shadow-2xl shadow-blue-700 text-blue-950 font-bold'>Physical and online classes <br/>are available for enrollment.</h1>
       </div>
       </div>

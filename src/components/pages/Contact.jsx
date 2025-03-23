@@ -1,5 +1,4 @@
 import coat from '../../assets/images/coat.png';
-import map from '../../assets/images/map.png';
 import { CiPaperplane } from "react-icons/ci";
 import { FiPhoneCall } from "react-icons/fi";
 import { MdOutlineMarkEmailUnread } from "react-icons/md";
@@ -39,9 +38,8 @@ const Contact = () => {
         ))}
       </div>
 
-      {/* Map & Contact Form Section */}
+      
       <div className="flex flex-row gap-10 mt-40 justify-center items-center px-10">
-        {/* Map Image */}
         <div className="w-full md:w-1/2">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d10488.777485450102!2d85.34282895596081!3d27.670556269639885!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2snp!4v1737472831890!5m2!1sen!2snp"

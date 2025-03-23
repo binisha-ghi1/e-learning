@@ -5,23 +5,23 @@ import { FaRegHeart, FaChevronDown } from "react-icons/fa";
 import { FcSearch } from "react-icons/fc";
 import logo from '../../assets/images/logo.png';
 
-const Navbar = ({ cart, wishlist, user}) => {
+const Navbar = ({ cart, wishlist, user }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    function handleClickOutside(event) {
+    function closeDropdownIfClickedOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
       }
     }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", closeDropdownIfClickedOutside);
+    return () => document.removeEventListener("mousedown", closeDropdownIfClickedOutside);
   }, []);
 
-  const handleSearchSubmit = (e) => {
+  const onSearchSubmit = (e) => {
     e.preventDefault();
     if (searchTerm.trim()) {
       navigate(`/courses?search=${searchTerm}`);
@@ -29,8 +29,9 @@ const Navbar = ({ cart, wishlist, user}) => {
   };
 
   useEffect(() => {
-    console.log(user); 
+    console.log(user);
   }, [user]);
+
   return (
     <div className="flex flex-row flex-wrap bg-yellow-400 text-xl sticky top-0 z-50 font-oswald py-4 px-6 items-center justify-between">
       <div className="flex flex-wrap items-center">
@@ -61,52 +62,50 @@ const Navbar = ({ cart, wishlist, user}) => {
       </div>
 
       <div className="flex items-center gap-4">
-        <form onSubmit={handleSearchSubmit} className="relative">
+        <form onSubmit={onSearchSubmit} className="relative">
           <input type="text" placeholder="Search courses..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="border border-gray-400 px-4 py-2 rounded-full focus:outline-none focus:border-blue-500" />
           <button type="submit" className="absolute right-2 top-1/2 transform -translate-y-1/2 text-blue-950 font-bold"><FcSearch /></button>
         </form>
 
-       
         {user ? (
-  <div className="flex items-center gap-2">
-    {user.photoURL ? (
-      <img src={user.photoURL} alt="User" className="w-10 h-10 rounded-full object-cover" />
-    ) : (
-      <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
-        <span className="text-gray-700 font-bold">{user.displayName?.charAt(0)}</span>
-      </div>
-    )}
-    <span>{user.displayName}</span>
-  </div>
-) : (
-  <>
-    <NavLink to="/login" className="bg-blue-950 text-white px-4 py-2 rounded-full hover:bg-blue-800">Login</NavLink>
-    <NavLink to="/signup" className="bg-white text-blue-950 px-4 py-2 rounded-full border border-blue-950 hover:bg-gray-200">Sign Up</NavLink>
-  </>
-)}
-
+          <div className="flex items-center gap-2">
+            {user.photoURL ? (
+              <img src={user.photoURL} alt="User" className="w-10 h-10 rounded-full object-cover" />
+            ) : (
+              <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
+                <span className="text-gray-700 font-bold">{user.displayName?.charAt(0)}</span>
+              </div>
+            )}
+            <span>{user.displayName}</span>
+          </div>
+        ) : (
+          <>
+            <NavLink to="/login" className="bg-blue-950 text-white px-4 py-2 rounded-full hover:bg-blue-800">Login</NavLink>
+            <NavLink to="/signup" className="bg-white text-blue-950 px-4 py-2 rounded-full border border-blue-950 hover:bg-gray-200">Sign Up</NavLink>
+          </>
+        )}
       </div>
 
       <div className="flex items-center gap-4">
-  <NavLink to="/wishlist" className="flex flex-col items-center text-blue-950">
-    {wishlist?.length > 0 && (
-      <span className="text-lg font-semibold text-red-600">({wishlist.length})</span>
-    )}
-    <FaRegHeart className="text-2xl" />
-  </NavLink>
-  <NavLink to="/cart" className="flex flex-col items-center text-blue-950">
-    {cart?.length > 0 && (
-      <span className="text-lg font-semibold text-red-600">({cart.length})</span>
-    )}
-    <IoCartOutline className="text-2xl" />
-  </NavLink>
-</div>
-
+        <NavLink to="/wishlist" className="flex flex-col items-center text-blue-950">
+          {wishlist?.length > 0 && (
+            <span className="text-lg font-semibold text-red-600">({wishlist.length})</span>
+          )}
+          <FaRegHeart className="text-2xl" />
+        </NavLink>
+        <NavLink to="/cart" className="flex flex-col items-center text-blue-950">
+          {cart?.length > 0 && (
+            <span className="text-lg font-semibold text-red-600">({cart.length})</span>
+          )}
+          <IoCartOutline className="text-2xl" />
+        </NavLink>
+      </div>
     </div>
   );
 };
 
 export default Navbar;
+
 
 
 

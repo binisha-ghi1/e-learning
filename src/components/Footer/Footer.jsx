@@ -10,10 +10,9 @@ const Footer = () => {
       className="text-white py-10 px-6"
       style={{ backgroundImage: `url(${navbar})` }}
     >
-    
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-8 mt-20">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mt-20 text-center sm:text-left">
         <div className="space-y-2">
-          <img src={logo} alt="S.T.Tech Logo" className="h-12" />
+          <img src={logo} alt="S.T.Tech Logo" className="h-12 mx-auto sm:mx-0" />
           <h2 className="text-xl font-bold">S.T.Tech</h2>
           <p className="text-sm">
             S.T. Tech is an e-learning platform offering practical, engaging, and
@@ -22,7 +21,6 @@ const Footer = () => {
           </p>
         </div>
 
-   
         <div className="space-y-2 flex flex-col">
           <h2 className="text-lg font-semibold">About</h2>
           <NavLink to="/blog" className="hover:underline">Blog</NavLink>
@@ -33,7 +31,6 @@ const Footer = () => {
           <NavLink to="/terms" className="hover:underline">Terms & Conditions</NavLink>
         </div>
 
-       
         <div className="space-y-2 flex flex-col gap-1.5">
           <h2 className="text-lg font-semibold">Links</h2>
           <NavLink to="/home" className="hover:underline">Home</NavLink>
@@ -43,7 +40,6 @@ const Footer = () => {
           <NavLink to="/about" className="hover:underline">Why Us</NavLink>
         </div>
 
- 
         <div className="space-y-2">
           <h2 className="text-lg font-semibold">Programs</h2>
           <p className="hover:underline">IT Courses</p>
@@ -54,7 +50,6 @@ const Footer = () => {
           <p className="hover:underline">Creative Arts Courses</p>
         </div>
 
-     
         <div className="space-y-2">
           <h2 className="text-lg font-semibold">Address</h2>
           <p>Location: Kwoteshor</p>
@@ -64,9 +59,9 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="mt-20">
+      <div className="mt-20 text-center sm:text-left">
         <h2 className="text-lg font-semibold">FOLLOW US ON</h2>
-        <div className="flex space-x-4 mt-4 text-xl">
+        <div className="flex justify-center sm:justify-start space-x-4 mt-4 text-xl">
           <NavLink to="https://www.facebook.com/" target="_blank">
             <FaFacebook />
           </NavLink>
@@ -80,7 +75,7 @@ const Footer = () => {
         <p className="text-sm mt-4">© 2024 S.T.Tech. All rights reserved.</p>
       </div>
     </div>
-  );
+  )
 };
 
 export default Footer;

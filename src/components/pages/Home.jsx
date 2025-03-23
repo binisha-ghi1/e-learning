@@ -73,7 +73,7 @@ const instructorImages = {
   ];
 
   const Home = () => {
-  const { cart, setCart } = useContext(CartContext);
+    const { cart, setCart } = useContext(CartContext);
   const [wishlist, setWishlist] = useState(() => JSON.parse(localStorage.getItem('wishlist')) || []);
 
   useEffect(() => {
@@ -81,7 +81,7 @@ const instructorImages = {
   }, [wishlist]);
 
   const addToCart = (course) => {
-    if (!cart.some((item) => item.id === course.id)) {
+    if (!cart.find((item) => item.id === course.id)) {
       setCart([...cart, course]);
       alert(`${course.name} added to cart!`);
     } else {
@@ -99,15 +99,15 @@ const instructorImages = {
   };
 
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart));
-  }, [cart]);
-  
-  useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem('cart'));
     if (storedCart) {
       setCart(storedCart);
     }
-  }, []);
+  }, [setCart]);
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
   
   return (
     <div className="bg-gray-100">

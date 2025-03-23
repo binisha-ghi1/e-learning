@@ -5,19 +5,14 @@ const Active = ({ activeCourses }) => {
   if (activeCourses.length === 0) {
     return (
       <div className="text-center text-xl font-bold">
-        No active courses at the moment.
+        You don't have any active courses right now.
       </div>
     );
   }
 
-  // Prepare data for the pie chart (for example, count courses per instructor)
+ 
   const instructorData = activeCourses.reduce((acc, course) => {
-    const instructor = course.instructor;
-    if (acc[instructor]) {
-      acc[instructor]++;
-    } else {
-      acc[instructor] = 1;
-    }
+    acc[course.instructor] = (acc[course.instructor] || 0) + 1;
     return acc;
   }, {});
 
@@ -30,9 +25,9 @@ const Active = ({ activeCourses }) => {
 
   return (
     <div className="p-8">
-      <h1 className="text-3xl font-bold text-center mb-6">Active Courses</h1>
-      <div className="flex flex-row justify-start gap-8">
-        {/* Courses Section */}
+      <h1 className="text-3xl font-bold text-center mb-6">Your Active Courses</h1>
+      <div className="flex flex-col md:flex-row gap-8">
+        
         <div className="w-full md:w-2/3">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {activeCourses.map((course) => (
@@ -46,12 +41,11 @@ const Active = ({ activeCourses }) => {
                   className="w-full h-48 object-cover rounded-lg mb-4"
                 />
                 <h2 className="text-xl font-semibold">{course.name}</h2>
-                <p className="mt-2 text-gray-600">{course.instructor}</p>
+                <p className="mt-2 text-gray-600">Instructor: {course.instructor}</p>
                 <p className="mt-2 font-semibold">Duration: {course.duration}</p>
 
-                {/* Progress Bar for Completion */}
                 <div className="mt-4">
-                  <p className="font-semibold">Completion: {course.completion}%</p>
+                  <p className="font-semibold">Progress: {course.completion}%</p>
                   <div className="w-full bg-gray-200 rounded-full h-4">
                     <div
                       className="bg-blue-500 h-4 rounded-full"
@@ -64,9 +58,8 @@ const Active = ({ activeCourses }) => {
           </div>
         </div>
 
-        {/* Pie Chart Section */}
-        <div className="w-full md:w-1/3 mt-8 md:mt-0 flex justify-end">
-          <h2 className="text-2xl font-semibold text-center mb-4">Progress</h2>
+        <div className="w-full md:w-1/3 mt-8 md:mt-0">
+          <h2 className="text-2xl font-semibold text-center mb-4">Overall Progress</h2>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
@@ -94,6 +87,7 @@ const Active = ({ activeCourses }) => {
 };
 
 export default Active;
+
 
 
 
