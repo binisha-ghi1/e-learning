@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { auth } from "../../firebase/firebaseConfig";
+import { auth, db, analytics } from "../../firebase/firebaseConfig"; 
 import rec from "../../assets/images/rec.png";
 import tag from "../../assets/images/tag.png";
 import { PiBookOpenTextBold } from "react-icons/pi";
 import { RiGraduationCapFill } from "react-icons/ri";
 import { BiSolidTrophy } from "react-icons/bi";
-import { doSignInWithEmailAndPassword } from "../../firebase/auth";
-import MyCourses from "./MyCourses";
 
 const MyProfile = () => {
   const [user, setUser] = useState(null);
@@ -16,8 +14,7 @@ const MyProfile = () => {
   const [role, setRole] = useState("student");
 
   useEffect(() => {
-    const fetchData = async () => {
-      const currentUser = auth.currentUser;
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
       if (currentUser) {
         setUser(currentUser);
         setRole(currentUser.role || "student");
@@ -30,9 +27,10 @@ const MyProfile = () => {
         if (savedActive) setActiveCount(JSON.parse(savedActive).length);
         if (savedCompleted) setCompletedCount(JSON.parse(savedCompleted).length);
       }
-    };
+    });
 
-    fetchData();
+
+    return () => unsubscribe();
   }, []);
 
   if (!user) {
@@ -72,7 +70,7 @@ const MyProfile = () => {
       <div className="w-full pt-16 flex flex-wrap justify-center gap-10 pb-20 bg-gray-200">
         <div className="flex flex-col items-center text-center p-15 bg-white rounded-lg shadow-2xl">
           <PiBookOpenTextBold className="text-5xl mb-2 text-blue-500" />
-          <p className="text-3xl  pt-4 font-bold">{enrolledCount}</p>
+          <p className="text-3xl pt-4 font-bold">{enrolledCount}</p>
           <p className="pt-4 text-2xl font-bold text-blue-950">Enrolled Courses</p>
         </div>
 
@@ -93,6 +91,7 @@ const MyProfile = () => {
 };
 
 export default MyProfile;
+
 
 
 
