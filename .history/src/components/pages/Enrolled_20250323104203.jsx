@@ -1,9 +1,7 @@
 import React from 'react';
 
 const Enrolled = ({ enrolledCourses, activateCourse, unenrollCourse }) => {
-  console.log("Props received in Enrolled:", { enrolledCourses, activateCourse, unenrollCourse });
-
-  if (!enrolledCourses || enrolledCourses.length === 0) {
+  if (enrolledCourses.length === 0) {
     return (
       <div className="text-center text-xl font-bold">
         You haven't enrolled in any courses yet.
@@ -29,12 +27,14 @@ const Enrolled = ({ enrolledCourses, activateCourse, unenrollCourse }) => {
               <button
                 className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                 onClick={() => activateCourse(course)}
+                aria-label={`Move ${course.name} to active courses`}
               >
                 Move to Active
               </button>
               <button
                 className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                onClick={() => unenrollCourse(course, 'enrolled')}
+                onClick={() => unenrollCourse(course)}
+                aria-label={`Unenroll from ${course.name}`}
               >
                 Unenroll
               </button>
@@ -47,8 +47,6 @@ const Enrolled = ({ enrolledCourses, activateCourse, unenrollCourse }) => {
 };
 
 export default Enrolled;
-
-
 
 
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import fifty  from '../../assets/images/fifty.jpg'
+import fifty  from '../../assets/images/fifty.png'
 import limited  from '../../assets/images/limited.png'
 
 const Offer = () => {
@@ -37,7 +37,7 @@ const Offer = () => {
             </p>
             <p className="text-red-700 text-xl mt-2">New  python course added on IT Course.</p>
             <img 
-              src={limited}
+              src="https://png.pngtree.com/png-vector/20230214/ourmid/pngtree-limited-time-offer-vector-design-png-image_6566272.png" 
               alt="Offer Image" 
               className="w-40 mx-auto mt-2"
             />

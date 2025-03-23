@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import fifty  from '../../assets/images/fifty.jpg'
+import fifty  from '../../assets/images/fifty.png'
 import limited  from '../../assets/images/limited.png'
 
 const Offer = () => {

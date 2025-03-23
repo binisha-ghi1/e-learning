@@ -95,7 +95,7 @@ import { auth } from '../../firebase/firebaseConfig';
           <Enrolled 
             enrolledCourses={enrolledCourses} 
             activateCourse={moveToActive} 
-            unenrollCourse={removeCourse}
+            unenrollCourse={removeCourse} // ✅ Fix: Correctly passing unenrollCourse
           />
         )}
         {currentTab === 'active' && (

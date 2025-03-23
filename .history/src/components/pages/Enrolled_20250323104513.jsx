@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Enrolled = ({ enrolledCourses, activateCourse, unenrollCourse }) => {
-  console.log("Props received in Enrolled:", { enrolledCourses, activateCourse, unenrollCourse });
+  console.log("unenrollCourse function:", unenrollCourse);
 
   if (!enrolledCourses || enrolledCourses.length === 0) {
     return (
@@ -34,7 +34,8 @@ const Enrolled = ({ enrolledCourses, activateCourse, unenrollCourse }) => {
               </button>
               <button
                 className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                onClick={() => unenrollCourse(course, 'enrolled')}
+                onClick={() => unenrollCourse?.(course)} // Safe function call
+                disabled={!unenrollCourse} // Disable if function is missing
               >
                 Unenroll
               </button>
@@ -47,8 +48,6 @@ const Enrolled = ({ enrolledCourses, activateCourse, unenrollCourse }) => {
 };
 
 export default Enrolled;
-
-
 
 
 

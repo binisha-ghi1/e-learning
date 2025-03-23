@@ -3,18 +3,18 @@ import Enrolled from './Enrolled';
 import Active from './Active';
 import Completed from './Completed';
 import { auth } from '../../firebase/firebaseConfig';
- 
- const MyCourses = () => {
+
+const MyCourses = () => {
   const [enrolledCourses, setEnrolledCourses] = useState([]);
   const [activeCourses, setActiveCourses] = useState([]);
   const [completedCourses, setCompletedCourses] = useState([]);
   const [currentTab, setCurrentTab] = useState('enrolled');
-  const [role, setRole] = useState('student');
+  const [role, setRole] = useState('student'); 
 
   useEffect(() => {
     const currentUser = auth.currentUser;
     if (currentUser) {
-      setRole(currentUser.role || 'student');
+      setRole(currentUser.role || 'student'); 
     }
 
     const savedEnrolled = localStorage.getItem('enrolledCourses');
@@ -27,25 +27,16 @@ import { auth } from '../../firebase/firebaseConfig';
   }, []);
 
   const moveToActive = (course) => {
-    const updatedEnrolled = enrolledCourses.filter((c) => c.id !== course.id);
-    const updatedActive = [...activeCourses, course];
+    setEnrolledCourses((prev) => prev.filter((c) => c.id !== course.id));
+    setActiveCourses((prev) => [...prev, course]);
 
-    setEnrolledCourses(updatedEnrolled);
-    setActiveCourses(updatedActive);
-
-    localStorage.setItem('enrolledCourses', JSON.stringify(updatedEnrolled));
-    localStorage.setItem('activeCourses', JSON.stringify(updatedActive));
+    localStorage.setItem('enrolledCourses', JSON.stringify(enrolledCourses.filter((c) => c.id !== course.id)));
+    localStorage.setItem('activeCourses', JSON.stringify([...activeCourses, course]));
   };
 
   const markAsCompleted = (course) => {
-    const updatedActive = activeCourses.filter((c) => c.id !== course.id);
-    const updatedCompleted = [...completedCourses, course];
-
-    setActiveCourses(updatedActive);
-    setCompletedCourses(updatedCompleted);
-
-    localStorage.setItem('activeCourses', JSON.stringify(updatedActive));
-    localStorage.setItem('completedCourses', JSON.stringify(updatedCompleted));
+    setCompletedCourses((prev) => [...prev, course]);
+    localStorage.setItem('completedCourses', JSON.stringify([...completedCourses, course]));
   };
 
   const removeCourse = (course, source) => {
@@ -91,32 +82,15 @@ import { auth } from '../../firebase/firebaseConfig';
       </div>
 
       <div className="mt-6 bg-gray-100 p-4 rounded-lg">
-        {currentTab === 'enrolled' && (
-          <Enrolled 
-            enrolledCourses={enrolledCourses} 
-            activateCourse={moveToActive} 
-            unenrollCourse={removeCourse}
-          />
-        )}
-        {currentTab === 'active' && (
-          <Active 
-            activeCourses={activeCourses} 
-            markAsCompleted={markAsCompleted} 
-          />
-        )}
-        {currentTab === 'completed' && (
-          <Completed 
-            completedCourses={completedCourses} 
-            removeCourse={removeCourse} 
-          />
-        )}
+        {currentTab === 'enrolled' && <Enrolled enrolledCourses={enrolledCourses} moveToActive={moveToActive} removeCourse={removeCourse} />}
+        {currentTab === 'active' && <Active activeCourses={activeCourses} markAsCompleted={markAsCompleted} />}
+        {currentTab === 'completed' && <Completed completedCourses={completedCourses} removeCourse={removeCourse} />}
       </div>
     </div>
   );
 };
 
 export default MyCourses;
-
 
 
 

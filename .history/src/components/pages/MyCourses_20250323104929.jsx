@@ -1,10 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import Enrolled from './Enrolled';
-import Active from './Active';
-import Completed from './Completed';
-import { auth } from '../../firebase/firebaseConfig';
- 
- const MyCourses = () => {
+   const MyCourses = () => {
   const [enrolledCourses, setEnrolledCourses] = useState([]);
   const [activeCourses, setActiveCourses] = useState([]);
   const [completedCourses, setCompletedCourses] = useState([]);
@@ -95,7 +89,7 @@ import { auth } from '../../firebase/firebaseConfig';
           <Enrolled 
             enrolledCourses={enrolledCourses} 
             activateCourse={moveToActive} 
-            unenrollCourse={removeCourse}
+            unenrollCourse={removeCourse} // ✅ Fix: Correctly passing unenrollCourse
           />
         )}
         {currentTab === 'active' && (

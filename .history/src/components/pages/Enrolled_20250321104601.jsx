@@ -1,9 +1,7 @@
 import React from 'react';
 
 const Enrolled = ({ enrolledCourses, activateCourse, unenrollCourse }) => {
-  console.log("Props received in Enrolled:", { enrolledCourses, activateCourse, unenrollCourse });
-
-  if (!enrolledCourses || enrolledCourses.length === 0) {
+  if (enrolledCourses.length === 0) {
     return (
       <div className="text-center text-xl font-bold">
         You haven't enrolled in any courses yet.
@@ -47,9 +45,6 @@ const Enrolled = ({ enrolledCourses, activateCourse, unenrollCourse }) => {
 };
 
 export default Enrolled;
-
-
-
 
 
 
