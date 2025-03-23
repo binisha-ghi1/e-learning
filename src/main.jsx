@@ -2,7 +2,7 @@ import { createRoot } from 'react-dom/client';
 import './index.css';  
 import App from './App.jsx'; 
 import { BrowserRouter as Router } from 'react-router-dom';
-import { UserProvider } from './components/context/usercontext'; 
+import { UserProvider } from './components/context/UserContext.jsx'; 
 import CartProvider from './components/cartcontext/CartContext.jsx';
 
 const rootElement = document.getElementById('root');
