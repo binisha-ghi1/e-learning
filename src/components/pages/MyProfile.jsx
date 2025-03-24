@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { auth, db, analytics } from "../../firebase/firebaseConfig";
+import { auth, db, analytics } from "@/firebase/firebaseConfig";
 import rec from "../../assets/images/rec.png";
 import tag from "../../assets/images/tag.png";
 import { PiBookOpenTextBold } from "react-icons/pi";
