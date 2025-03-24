@@ -28,7 +28,7 @@ import Feedback from "./components/pages/Feedback";
 import Messages from "./components/pages/Messages";
 import Settings from "./components/pages/Settings";
 import Offer from "./components/offer/Offer";
-import { auth } from "@/firebase/firebaseConfig";
+import { auth, db, analytics } from "@/firebase/firebaseConfig";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 
 const App = () => {
