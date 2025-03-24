@@ -19,14 +19,10 @@ const app = initializeApp(FirebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-let analytics = null; 
-
+let analyticsInstance = null; 
 isSupported().then((supported) => {
   if (supported) {
-    analytics = getAnalytics(app);
-    console.log("Firebase Analytics initialized successfully");
-  } else {
-    console.warn("Firebase Analytics is not supported in this environment.");
+    analyticsInstance = getAnalytics(app);
   }
 });
 
@@ -35,7 +31,7 @@ setPersistence(auth, browserSessionPersistence)
   .catch((error) => console.error("Error setting persistence:", error));
 
 
-export { auth, db, analytics };
+export { auth, db, analyticsInstance as analytics  };
 
 
 
