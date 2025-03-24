@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { auth, db, analytics } from "../../firebase/firebaseConfig"; 
+import { auth, db, analytics } from "../../firebase/firebaseConfig";
 import rec from "../../assets/images/rec.png";
 import tag from "../../assets/images/tag.png";
 import { PiBookOpenTextBold } from "react-icons/pi";
@@ -14,10 +14,21 @@ const MyProfile = () => {
   const [role, setRole] = useState("student");
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
-      if (currentUser) {
+    const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
+      if (!currentUser) {
+        setUser(null);
+      } else {
         setUser(currentUser);
-        setRole(currentUser.role || "student");
+        
+    
+        try {
+          const userDoc = await db.collection("users").doc(currentUser.uid).get();
+          if (userDoc.exists) {
+            setRole(userDoc.data().role || "student");
+          }
+        } catch (error) {
+          console.error("Error fetching user role:", error);
+        }
 
         const savedEnrolled = localStorage.getItem("enrolledCourses");
         const savedActive = localStorage.getItem("activeCourses");
@@ -28,7 +39,6 @@ const MyProfile = () => {
         if (savedCompleted) setCompletedCount(JSON.parse(savedCompleted).length);
       }
     });
-
 
     return () => unsubscribe();
   }, []);
@@ -91,6 +101,7 @@ const MyProfile = () => {
 };
 
 export default MyProfile;
+
 
 
 
