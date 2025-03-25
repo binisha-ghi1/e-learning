@@ -14,7 +14,7 @@ import More from "./components/pages/More";
 import Contact from "./components/pages/Contact";
 import Login from "./components/Authenication/Login";
 import Signup from "./components/Authenication/Signup";
-import CartPage from "./components/pages/CartPage";
+import CartPage from "./components/pages/Cartpage";
 import Payment from "./components/pages/Payment";
 import Failure from "./components/pages/Failure";
 import Success from "./components/pages/Success";
