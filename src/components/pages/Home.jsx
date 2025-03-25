@@ -1,4 +1,4 @@
-import { useState, useEffect  , useContext} from 'react';
+import { useState, useEffect  ,useContext} from 'react';
 import { NavLink } from 'react-router-dom';
 import Button from '../Button/Button';
 import { GrBook } from "react-icons/gr";
@@ -11,6 +11,7 @@ import Student from '../Student/Student';
 import Footer from '../Footer/Footer';
 import { FaRegHeart } from "react-icons/fa";
 import { CartContext } from '../cartcontext/CartContext';
+import { WishContext } from '../wishcontext/WishContext';
 
 
 import main from '../../assets/images/main.png';
@@ -73,16 +74,19 @@ const instructorImages = {
   ];
 
   const Home = () => {
-    const { cart, setCart } = useContext(CartContext);
-  const [wishlist, setWishlist] = useState(() => JSON.parse(localStorage.getItem('wishlist')) || []);
+    const { cart, dispatch } = useContext(CartContext);
+    const { wishlist, dispatch: wishDispatch } = useContext(WishContext) || { wishlist: [], dispatch: () => {} };
 
+
+
+   
   useEffect(() => {
     localStorage.setItem('wishlist', JSON.stringify(wishlist));
   }, [wishlist]);
 
   const addToCart = (course) => {
     if (!cart.find((item) => item.id === course.id)) {
-      setCart([...cart, course]);
+      dispatch({ type: "ADD_TO_CART", payload: course });
       alert(`${course.name} added to cart!`);
     } else {
       alert(`${course.name} is already in the cart.`);
@@ -91,7 +95,7 @@ const instructorImages = {
 
   const addToWishlist = (course) => {
     if (!wishlist.some(item => item.id === course.id)) {
-      setWishlist([...wishlist, course]);
+      wishDispatch({ type: "ADD_TO_WISHLIST", payload: course });
       alert(`${course.name} added to wishlist!`);
     } else {
       alert(`${course.name} is already in the wishlist.`);
@@ -101,13 +105,15 @@ const instructorImages = {
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem('cart'));
     if (storedCart) {
-      setCart(storedCart);
+      dispatch(storedCart);
     }
-  }, [setCart]);
+  }, [dispatch]);
 
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
   }, [cart]);
+
+   
   
   return (
     <div className="bg-gray-100">

@@ -3,6 +3,7 @@ import { getAuth, setPersistence, browserSessionPersistence } from 'firebase/aut
 import { getFirestore } from 'firebase/firestore'; 
 import { getAnalytics, isSupported } from 'firebase/analytics';
 
+
 const FirebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
   authDomain: import.meta.env.VITE_AUTH_DOMAIN,

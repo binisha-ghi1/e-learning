@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, {  useContext, useState, useEffect} from "react";
+import { CartContext } from "../cartcontext/CartContext";
+import { WishContext } from "../wishcontext/WishContext";
 import { IoCartOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
 import { NavLink, useLocation } from "react-router-dom";
@@ -23,7 +25,10 @@ import charlotte from "../../assets/images/charlotte.png";
 import jordan from "../../assets/images/jordan.png";
 import ethan from "../../assets/images/ethan.png";
 
-const Courses = ({ cart, setCart, wishlist, setWishlist }) => {
+
+const Courses = () => {
+  const { wishlist, dispatch: wishlistDispatch } = useContext(WishContext);
+  const { cart, dispatch } = useContext(CartContext);
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const searchQuery = queryParams.get("search") || "";
@@ -179,28 +184,23 @@ const Courses = ({ cart, setCart, wishlist, setWishlist }) => {
   }, [searchQuery, category]);
 
   const addToCart = (course) => {
-    if (!cart.find((item) => item.id === course.id)) {
-      setCart([...cart, course]);
+    if (!cart.some((item) => item.id === course.id)) {
+      dispatch({ type: "ADD_TO_CART", payload: course });
       alert(`${course.name} added to cart!`);
     } else {
       alert(`${course.name} is already in the cart.`);
     }
   };
-  
+
   const addToWishlist = (course) => {
-    const isAlreadyInWishlist = wishlist.some((item) => item.id === course.id);
-  
-    if (isAlreadyInWishlist) {
-      const updatedWishlist = wishlist.filter((item) => item.id !== course.id);
-      setWishlist(updatedWishlist);
-      alert(`${course.name} removed from wishlist!`);
-    } else {
-      setWishlist([...wishlist, course]);
+    if (!wishlist.some((item) => item.id === course.id)) {
+      wishlistDispatch({ type: "ADD_TO_WISHLIST", payload: course });
       alert(`${course.name} added to wishlist!`);
+    } else {
+      wishlistDispatch({ type: "REMOVE_FROM_WISHLIST", payload: course.id });
+      alert(`${course.name} removed from wishlist!`);
     }
   };
-  
-  
 
   return (
     <div>
@@ -279,16 +279,9 @@ const Courses = ({ cart, setCart, wishlist, setWishlist }) => {
                     </button>
 
                    
-                    <button
-                      onClick={() => addToWishlist(course)}
-                      className={`flex items-center justify-center px-6 py-2 transition duration-300 rounded-full ${
-                        wishlist.some((item) => item.id === course.id)
-                          ? "text-blue-950"
-                          : "text-gray-500"
-                      } hover:text-blue-950`}
-                    >
-                      <FaRegHeart className="text-xl mr-6" />
-                    </button>
+                    <button onClick={() => addToWishlist(course)} className={`mt-2 ${wishlist.some((item) => item.id === course.id) ? "text-blue-950" : "text-gray-500"} hover:text-blue-950`}>
+                  <FaRegHeart className="text-xl" />
+                </button>
                   </div>
                 
                   <NavLink to={`/course/${course.id}`} className="mt-4 w-full">

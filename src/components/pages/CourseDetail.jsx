@@ -1,7 +1,8 @@
 import { useParams } from 'react-router-dom';
+import { useState, useContext } from 'react';
+import { CartContext } from '../cartcontext/CartContext';
 import star from '../../assets/images/star.png';
 import { LiaStarHalf } from "react-icons/lia";
-import { useState  } from 'react';
 import Footer from '../Footer/Footer';
 
 
@@ -281,7 +282,7 @@ function CourseDetail() {
     const savedEnrolledCourses = localStorage.getItem('enrolledCourses');
     return savedEnrolledCourses ? JSON.parse(savedEnrolledCourses) : [];
   });
-  const [cart, setCart] = useState([]);
+  const { cart, dispatch } = useContext(CartContext);
 
   console.log(courseId); 
   const [showMore, setShowMore] = useState(false);
@@ -324,14 +325,14 @@ function CourseDetail() {
     }
 };
 
-  const addToCart = (course) => {
-    if (!isInCart) {
-      setCart([...cart, course]);
-      alert(`${course.name} added to cart.`);
-    } else {
-      alert("This course is already in your cart.");
-    }
-  };
+const addToCart = (course) => {
+  if (!cart.find((item) => item.id === course.id)) {
+    dispatch({ type: "ADD_TO_CART", payload: course });
+    alert(`${course.name} added to cart!`);
+  } else {
+    alert(`${course.name} is already in the cart.`);
+  }
+};
 
   return (
     <div className=" flex-wrap  ">

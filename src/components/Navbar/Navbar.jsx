@@ -1,22 +1,26 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { CartContext } from '../cartcontext/CartContext';
 import { IoCartOutline } from 'react-icons/io5';
 import { FaRegHeart, FaChevronDown } from "react-icons/fa";
 import { FcSearch } from "react-icons/fc";
 import logo from '../../assets/images/logo.png';
+import { WishContext } from '../wishcontext/WishContext';
 
-const Navbar = ({ cart, wishlist, user }) => {
+const Navbar = ({ user }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+  const { cart } = useContext(CartContext);
+  const { wishlist } = useContext(WishContext);
 
   useEffect(() => {
-    function closeDropdownIfClickedOutside(event) {
+    const closeDropdownIfClickedOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
       }
-    }
+    };
     document.addEventListener("mousedown", closeDropdownIfClickedOutside);
     return () => document.removeEventListener("mousedown", closeDropdownIfClickedOutside);
   }, []);
@@ -28,9 +32,8 @@ const Navbar = ({ cart, wishlist, user }) => {
     }
   };
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+  const getNavLinkClass = (isActive) => 
+    isActive ? "text-blue-950 font-bold" : "hover:text-blue-950 hover:underline";
 
   return (
     <div className="flex flex-row flex-wrap bg-yellow-400 text-xl sticky top-0 z-50 font-oswald py-4 px-6 items-center justify-between">
@@ -40,11 +43,11 @@ const Navbar = ({ cart, wishlist, user }) => {
       </div>
 
       <div className="flex flex-wrap items-center gap-6">
-        <NavLink to="/" className={({ isActive }) => isActive ? "text-blue-950 font-bold" : "hover:text-blue-950 hover:underline"}>Home</NavLink>
-        <NavLink to="/dashboard" className={({ isActive }) => isActive ? "text-blue-950 font-bold" : "hover:text-blue-950 hover:underline"}>Dashboard</NavLink>
-        <NavLink to="/courses" className={({ isActive }) => isActive ? "text-blue-950 font-bold" : "hover:text-blue-950 hover:underline"}>Courses</NavLink>
-        <NavLink to="/instructors" className={({ isActive }) => isActive ? "text-blue-950 font-bold" : "hover:text-blue-950 hover:underline"}>Instructors</NavLink>
-        <NavLink to="/about" className={({ isActive }) => isActive ? "text-blue-950 font-bold" : "hover:text-blue-950 hover:underline"}>About Us</NavLink>
+        <NavLink to="/" className={({ isActive }) => getNavLinkClass(isActive)}>Home</NavLink>
+        <NavLink to="/dashboard" className={({ isActive }) => getNavLinkClass(isActive)}>Dashboard</NavLink>
+        <NavLink to="/courses" className={({ isActive }) => getNavLinkClass(isActive)}>Courses</NavLink>
+        <NavLink to="/instructors" className={({ isActive }) => getNavLinkClass(isActive)}>Instructors</NavLink>
+        <NavLink to="/about" className={({ isActive }) => getNavLinkClass(isActive)}>About Us</NavLink>
 
         <div className="relative" ref={dropdownRef}>
           <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="flex items-center gap-1 text-blue-950 font-bold hover:underline">
@@ -69,14 +72,14 @@ const Navbar = ({ cart, wishlist, user }) => {
 
         {user ? (
           <div className="flex items-center gap-2">
-            {user.photoURL ? (
-              <img src={user.photoURL} alt="User" className="w-10 h-10 rounded-full object-cover" />
+            {user?.photoURL ? (
+              <img src={user?.photoURL} alt="User" className="w-10 h-10 rounded-full object-cover" />
             ) : (
               <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
-                <span className="text-gray-700 font-bold">{user.displayName?.charAt(0)}</span>
+                <span className="text-gray-700 font-bold">{user?.displayName?.charAt(0)}</span>
               </div>
             )}
-            <span>{user.displayName}</span>
+            <span>{user?.displayName}</span>
           </div>
         ) : (
           <>
@@ -87,15 +90,16 @@ const Navbar = ({ cart, wishlist, user }) => {
       </div>
 
       <div className="flex items-center gap-4">
-        <NavLink to="/wishlist" className="flex flex-col items-center text-blue-950">
+        <NavLink to="/wishlist" className="flex flex-col items-center text-blue-950 relative">
           {wishlist?.length > 0 && (
-            <span className="text-lg font-semibold text-red-600">({wishlist.length})</span>
+            <span className="absolute -top-2 -right-2 text-xs font-semibold text-red-600 bg-white rounded-full w-5 h-5 flex items-center justify-center">{wishlist.length}</span>
           )}
           <FaRegHeart className="text-2xl" />
         </NavLink>
-        <NavLink to="/cart" className="flex flex-col items-center text-blue-950">
+
+        <NavLink to="/cart" className="flex flex-col items-center text-blue-950 relative">
           {cart?.length > 0 && (
-            <span className="text-lg font-semibold text-red-600">({cart.length})</span>
+            <span className="absolute -top-2 -right-2 text-xs font-semibold text-red-600 bg-white rounded-full w-5 h-5 flex items-center justify-center">{cart.length}</span>
           )}
           <IoCartOutline className="text-2xl" />
         </NavLink>
@@ -105,6 +109,7 @@ const Navbar = ({ cart, wishlist, user }) => {
 };
 
 export default Navbar;
+
 
 
 
