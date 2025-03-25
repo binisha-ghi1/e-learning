@@ -28,7 +28,7 @@ export const WishProvider = ({ children }) => {
     if (state.wishlist.length > 0) {
       localStorage.setItem('wishlist', JSON.stringify(state.wishlist));
     } else {
-      localStorage.removeItem('wishlist'); 
+      localStorage.removeItem('wishlist'); // Clear if empty
     }
   }, [state.wishlist]);
 
