@@ -72,15 +72,16 @@ const Navbar = ({ user }) => {
 
         {user ? (
           <div className="flex items-center gap-2">
-            {user?.photoURL ? (
-              <img src={user?.photoURL} alt="User" className="w-10 h-10 rounded-full object-cover" />
+            {user?.picture ? (
+              <img src={user?.picture} alt="User" className="w-10 h-10 rounded-full object-cover" />
+             
             ) : (
-              <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
-                <span className="text-gray-700 font-bold">{user?.displayName?.charAt(0)}</span>
-              </div>
-            )}
-            <span>{user?.displayName}</span>
-          </div>
+              <div className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-300">
+              <span className="text-gray-700 font-bold">{user?.name?.charAt(0)}</span>
+            </div>
+          )}
+          <span className="ml-2 text-blue-950">{user?.name || "User"}</span> 
+        </div>
         ) : (
           <>
             <NavLink to="/login" className="bg-blue-950 text-white px-4 py-2 rounded-full hover:bg-blue-800">Login</NavLink>

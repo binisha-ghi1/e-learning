@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react"; 
 import Navbar from "./components/Navbar/Navbar";
 import Sidebar from "./components/Sidebar/Sidebar";
 import AboutUs from "./components/pages/AboutUs";
@@ -28,30 +29,23 @@ import Feedback from "./components/pages/Feedback";
 import Messages from "./components/pages/Messages";
 import Settings from "./components/pages/Settings";
 import Offer from "./components/offer/Offer";
-import { auth, db, analytics } from "@/firebase/firebaseConfig";
-import { onAuthStateChanged, signOut } from "firebase/auth";
 
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
-  const [currentUser, setCurrentUser] = useState(null);
+  const { user, isAuthenticated, isLoading, logout } = useAuth0(); 
   const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
-    });
+ 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
-    return () => unsubscribe();
-  }, []);
-
+  
   const logoutUser = async () => {
     try {
-      await signOut(auth);
-      setCurrentUser(null);
-      localStorage.clear();
-      sessionStorage.clear();
+      await logout({ returnTo: window.location.origin });
       navigate("/login");
     } catch (error) {
       console.error("Failed to log out:", error);
@@ -59,7 +53,7 @@ const App = () => {
   };
 
   const shouldShowSidebar =
-    currentUser &&
+    isAuthenticated &&
     [
       "/dashboard",
       "/profile",
@@ -77,7 +71,7 @@ const App = () => {
         cart={cartItems}
         wishlist={wishlistItems}
         setWishlist={setWishlistItems}
-        user={currentUser}
+        user={user} 
         onLogout={logoutUser}
       />
       <div className="flex">
@@ -116,8 +110,8 @@ const App = () => {
             <Route path="/about" element={<AboutUs />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/more" element={<More />} />
-            <Route path="/signup" element={<Signup setUser={setCurrentUser} />} />
-            <Route path="/login" element={<Login setUser={setCurrentUser} />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
             <Route
               path="/cart"
               element={<CartPage cart={cartItems} setCart={setCartItems} />}
@@ -147,6 +141,7 @@ const App = () => {
 };
 
 export default App;
+
 
 
 

@@ -1,8 +1,6 @@
 import React, { createContext, useReducer, useEffect } from "react";
 
-
 export const CartContext = createContext();
-
 
 const cartReducer = (state, action) => {
   switch (action.type) {
@@ -35,5 +33,7 @@ const CartProvider = ({ children }) => {
 };
 
 export default CartProvider;
+
+
 
 

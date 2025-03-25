@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Enrolled from './Enrolled';
 import Active from './Active';
 import Completed from './Completed';
-import { auth } from '../../firebase/firebaseConfig';
- 
- const MyCourses = () => {
+import { useAuth0 } from "@auth0/auth0-react";
+
+const MyCourses = () => {
+  const { user, isAuthenticated, isLoading } = useAuth0();
   const [enrolledCourses, setEnrolledCourses] = useState([]);
   const [activeCourses, setActiveCourses] = useState([]);
   const [completedCourses, setCompletedCourses] = useState([]);
@@ -12,19 +13,18 @@ import { auth } from '../../firebase/firebaseConfig';
   const [role, setRole] = useState('student');
 
   useEffect(() => {
-    const currentUser = auth.currentUser;
-    if (currentUser) {
-      setRole(currentUser.role || 'student');
+    if (isAuthenticated && user) {
+      setRole(user.role || 'student');
+      
+      const savedEnrolled = localStorage.getItem('enrolledCourses');
+      const savedActive = localStorage.getItem('activeCourses');
+      const savedCompleted = localStorage.getItem('completedCourses');
+
+      if (savedEnrolled) setEnrolledCourses(JSON.parse(savedEnrolled));
+      if (savedActive) setActiveCourses(JSON.parse(savedActive));
+      if (savedCompleted) setCompletedCourses(JSON.parse(savedCompleted));
     }
-
-    const savedEnrolled = localStorage.getItem('enrolledCourses');
-    const savedActive = localStorage.getItem('activeCourses');
-    const savedCompleted = localStorage.getItem('completedCourses');
-
-    if (savedEnrolled) setEnrolledCourses(JSON.parse(savedEnrolled));
-    if (savedActive) setActiveCourses(JSON.parse(savedActive));
-    if (savedCompleted) setCompletedCourses(JSON.parse(savedCompleted));
-  }, []);
+  }, [isAuthenticated, user]);
 
   const moveToActive = (course) => {
     const updatedEnrolled = enrolledCourses.filter((c) => c.id !== course.id);
@@ -69,6 +69,10 @@ import { auth } from '../../firebase/firebaseConfig';
       return updatedCourses;
     });
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="p-8">
@@ -116,6 +120,7 @@ import { auth } from '../../firebase/firebaseConfig';
 };
 
 export default MyCourses;
+
 
 
 

@@ -1,56 +1,50 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Navigate, NavLink } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
-import { doSignInWithEmailAndPassword, doSigninWithGoogle } from "@/firebase/auth"; 
-import { auth } from "@/firebase/firebaseConfig"; 
+import { useAuth0 } from "@auth0/auth0-react";
+
 import vector from "../../assets/images/vector.png";
 import logsign from "../../assets/images/logsign.png";
 import logo from "../../assets/images/logo.png";
 
 const Login = () => {
+  const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isSigningIn, setIsSigningIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [userLoggedIn, setUserLoggedIn] = useState(false); 
+  const [isSigningIn, setIsSigningIn] = useState(false);
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUserLoggedIn(!!user);
-    });
-    return () => unsubscribe(); 
-  }, []);
-
-  const onSubmit = async (e) => {
+  // Handle form submission
+  const onSubmit = (e) => {
     e.preventDefault();
-    setErrorMessage(""); 
     setIsSigningIn(true);
-    try {
-      await doSignInWithEmailAndPassword(email, password);
-    } catch (error) {
-      setErrorMessage(error.message);
+    
+    
+    if (!email || !password) {
+      setErrorMessage("Please fill in both fields.");
+      setIsSigningIn(false);
+      return;
     }
-    setIsSigningIn(false);
+
+    setTimeout(() => {
+      setIsSigningIn(false);
+      console.log("User logged in:", email);
+    }, 1500);
   };
 
-  const onGoogleSignIn = async (e) => {
-    e.preventDefault();
-    setErrorMessage(""); 
-    setIsSigningIn(true);
-    try {
-      await doSigninWithGoogle(); 
-    } catch (error) {
-      setErrorMessage(error.message); 
-    }
-    setIsSigningIn(false);
+  
+  const onGoogleSignIn = () => {
+    loginWithRedirect();
   };
+
+  if (isAuthenticated) {
+    return <Navigate to="/profile" replace={true} />;
+  }
 
   return (
     <div className="flex h-screen items-center justify-center bg-gray-100">
-      {userLoggedIn && <Navigate to="/profile" replace={true} />} 
-
       <div className="flex w-4/5 max-w-4xl rounded-lg overflow-hidden shadow-lg shadow-gray-400 bg-white">
-       
         <div className="w-1/2 p-10 flex flex-col justify-center relative">
           <h2 className="text-3xl font-bold mb-2 text-center">Welcome Back!</h2>
           <p className="text-gray-500 text-center mb-4">
@@ -110,7 +104,7 @@ const Login = () => {
             </NavLink>
           </p>
         </div>
-       
+
         <div
           className="w-1/2 flex flex-col justify-center items-center text-white p-10 relative"
           style={{
@@ -120,9 +114,9 @@ const Login = () => {
             backgroundRepeat: "no-repeat",
           }}
         >
-           <div className="absolute top-4 right-4 flex items-center">
-            <img src={logo} alt="S.T. Tech Logo" className="w-12 h-12 bg-white rounded-lg shadow-md" /> 
-            <p className="text-white  font-semibold ml-2">S.T. TECH</p>
+          <div className="absolute top-4 right-4 flex items-center">
+            <img src={logo} alt="S.T. Tech Logo" className="w-12 h-12 bg-white rounded-lg shadow-md" />
+            <p className="text-white font-semibold ml-2">S.T. TECH</p>
           </div>
           <h2 className="text-2xl font-semibold text-center">
             Empower Your Learning Journey- <br /> Welcome to S.T. Tech!
@@ -135,6 +129,7 @@ const Login = () => {
 };
 
 export default Login;
+
 
 
 

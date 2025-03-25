@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { auth, db, analytics } from "@/firebase/firebaseConfig";
+import { useAuth0 } from "@auth0/auth0-react";
 import rec from "../../assets/images/rec.png";
 import tag from "../../assets/images/tag.png";
 import { PiBookOpenTextBold } from "react-icons/pi";
@@ -7,44 +7,28 @@ import { RiGraduationCapFill } from "react-icons/ri";
 import { BiSolidTrophy } from "react-icons/bi";
 
 const MyProfile = () => {
-  const [user, setUser] = useState(null);
+  const { user, isAuthenticated, isLoading } = useAuth0();
   const [enrolledCount, setEnrolledCount] = useState(0);
   const [activeCount, setActiveCount] = useState(0);
   const [completedCount, setCompletedCount] = useState(0);
-  const [role, setRole] = useState("student");
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
-      if (!currentUser) {
-        setUser(null);
-      } else {
-        setUser(currentUser);
-    
-        try {
-          const userRef = doc(db, "users", currentUser.uid);
-          const userDoc = await getDoc(userRef);
-          if (userDoc.exists()) {
-            setRole(userDoc.data().role || "student");
-          }
-        } catch (error) {
-          console.error("Error fetching user role:", error);
-        }
+    console.log(user); // Check the user object for 'picture'
+  }, [user]);
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      const savedEnrolled = localStorage.getItem("enrolledCourses");
+      const savedActive = localStorage.getItem("activeCourses");
+      const savedCompleted = localStorage.getItem("completedCourses");
 
-        const savedEnrolled = localStorage.getItem("enrolledCourses");
-        const savedActive = localStorage.getItem("activeCourses");
-        const savedCompleted = localStorage.getItem("completedCourses");
+      if (savedEnrolled) setEnrolledCount(JSON.parse(savedEnrolled).length);
+      if (savedActive) setActiveCount(JSON.parse(savedActive).length);
+      if (savedCompleted) setCompletedCount(JSON.parse(savedCompleted).length);
+    }
+  }, [isAuthenticated]);
 
-        if (savedEnrolled) setEnrolledCount(JSON.parse(savedEnrolled).length);
-        if (savedActive) setActiveCount(JSON.parse(savedActive).length);
-        if (savedCompleted) setCompletedCount(JSON.parse(savedCompleted).length);
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  if (!user) {
+  if (!isAuthenticated) {
     return <div className="w-full h-screen flex items-center justify-center">Loading...</div>;
   }
 
@@ -57,12 +41,12 @@ const MyProfile = () => {
         >
           <h2 className="text-4xl font-bold mb-6 text-left md:text-center">
             Welcome back,
-            <span className="block text-blue-300"> {user.displayName || "User"}</span>
+            <span className="block text-blue-300"> {user?.name || "User"}</span>
           </h2>
 
           <div className="flex justify-center mt-4">
             <img
-              src={user.photoURL || "https://via.placeholder.com/150"}
+              src={user?.picture || "https://via.placeholder.com/150"}
               alt="User Profile"
               className="w-20 h-20 rounded-full object-cover border-4 border-white shadow-lg"
             />
@@ -102,6 +86,7 @@ const MyProfile = () => {
 };
 
 export default MyProfile;
+
 
 
 

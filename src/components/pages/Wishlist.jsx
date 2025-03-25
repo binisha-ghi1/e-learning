@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import esewa from "../../assets/images/esewa.png";
 import emptyWishlistImg from "../../assets/images/wishlist.png";
 import { useContext } from "react";
@@ -6,16 +6,38 @@ import { WishContext } from "../wishcontext/WishContext";
 
 const Wishlist = () => {
   const { wishlist, dispatch } = useContext(WishContext);
+  const navigate = useNavigate();
 
   const removeFromWISHLIST = (courseId) => {
     dispatch({ type: "REMOVE_FROM_WISHLIST", payload: { id: courseId } });
   };
 
+ 
   const total = wishlist.reduce((sum, item) => {
-    const price =
-      item.price === "Free" ? 0 : parseFloat(item.price.replace(/,/g, ""));
-    return sum + price;
+    const price = item.price === "Free" ? 0 : parseFloat(item.price.replace(/[^0-9.]/g, ''));
+    return sum + price * (item.qty || 1);
   }, 0);
+
+  const handleProceedToPayment = () => {
+    const payableItems = wishlist
+      .filter(item => item.price !== "Free")
+      .map(item => ({
+        ...item,
+        qty: item.qty || 1 
+      }));
+
+    if (payableItems.length === 0) {
+      alert("No payable items in your wishlist");
+      return;
+    }
+
+    navigate("/payment", {
+      state: {
+        items: payableItems,
+        total: total.toFixed(2)
+      }
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 py-8">
@@ -58,13 +80,15 @@ const Wishlist = () => {
                       <p className="text-lg font-semibold text-blue-950">
                         {item.name}
                       </p>
-                      <p className="text-sm text-gray-600">
-                        {item.price === "Free" ? "Free" : `Rs. ${item.price}`}
-                      </p>
+                      <div className="flex justify-between items-center mt-2">
+                        <p className="text-sm text-gray-600">
+                          {item.price === "Free" ? "Free" : `Rs. ${item.price}`}
+                        </p>
+                      </div>
                     </div>
                     <button
                       onClick={() => removeFromWISHLIST(item.id)}
-                      className="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-red-600 transition-colors"
+                      className="bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition-colors text-sm"
                     >
                       Remove
                     </button>
@@ -86,11 +110,14 @@ const Wishlist = () => {
                   <p className="text-xl font-semibold text-gray-800 mb-4">
                     Book your class at just 2,000 through e-sewa
                   </p>
-                  <NavLink to="/payment" className="mb-4">
+                  <button
+                    onClick={handleProceedToPayment}
+                    className="mt-4 p-2 bg-transparent hover:bg-blue-50 rounded-lg transition-colors"
+                  >
                     <img src={esewa} alt="Esewa" className="w-32 sm:w-40" />
-                  </NavLink>
-                  <p className="text-xl text-gray-600 underline">
-                    Or pay on cash at the center
+                  </button>
+                  <p className="text-xl text-gray-600 underline mt-2">
+                    Or pay in cash at the center
                   </p>
                 </div>
               </div>

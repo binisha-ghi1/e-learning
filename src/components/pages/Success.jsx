@@ -35,14 +35,9 @@ const Success = () => {
               A confirmation email has been sent to your registered email address.
             </p>
             <p className="text-gray-600 mb-4">
-              Transaction ID: <span className="font-semibold text-red-500">{newData.transaction_uuid}</span>
-            </p>
-            <p className="text-gray-600 mb-4">
               Transaction Amount: <span className="text-red-600 font-semibold">Rs. {newData.total_amount}</span>
             </p>
-            <p className="text-gray-600 mb-4">
-              Status: <span className="font-semibold text-green-600">{newData.status}</span>
-            </p>
+           
           </>
         ) : (
           <p className="text-red-500">Invalid transaction data.</p>

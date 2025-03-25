@@ -1,45 +1,42 @@
-import React, { createContext, useReducer, useContext, useEffect } from 'react';
+import React, { createContext, useReducer, useContext, useEffect } from "react";
 
-// Create context
 export const WishContext = createContext();
 
 const wishReducer = (state, action) => {
   switch (action.type) {
-    case 'ADD_TO_WISHLIST':
-      return { ...state, wishlist: [...state.wishlist, action.payload] };
-    case 'REMOVE_FROM_WISHLIST':
-      return { 
-        ...state, 
-        wishlist: state.wishlist.filter(item => item.id !== action.payload.id) 
-      };
+    case "ADD_TO_WISHLIST":
+      return [...state, action.payload];
+    case "REMOVE_FROM_WISHLIST":
+      return state.filter((item) => item.id !== action.payload.id);
     default:
       return state;
   }
 };
 
 export const WishProvider = ({ children }) => {
-  
-  const initialState = { wishlist: JSON.parse(localStorage.getItem('wishlist')) || [] };
+  const [wishlist, dispatch] = useReducer(wishReducer, [], () => {
+    const savedWishlist = localStorage.getItem("wishlist");
+    return savedWishlist ? JSON.parse(savedWishlist) : [];
+  });
 
-  const [state, dispatch] = useReducer(wishReducer, initialState);
-
-  
   useEffect(() => {
-    if (state.wishlist.length > 0) {
-      localStorage.setItem('wishlist', JSON.stringify(state.wishlist));
+    if (wishlist.length > 0) {
+      localStorage.setItem("wishlist", JSON.stringify(wishlist));
     } else {
-      localStorage.removeItem('wishlist'); 
+      localStorage.removeItem("wishlist");
     }
-  }, [state.wishlist]);
+  }, [wishlist]);
 
   return (
-    <WishContext.Provider value={{ wishlist: state.wishlist, dispatch }}>
+    <WishContext.Provider value={{ wishlist, dispatch }}>
       {children}
     </WishContext.Provider>
   );
 };
 
 export const useWishContext = () => useContext(WishContext);
+
+
 
 
 
