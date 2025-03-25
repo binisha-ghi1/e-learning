@@ -17,7 +17,7 @@ console.log("Firebase API Key:", import.meta.env.VITE_API_KEY);
 
 const app = initializeApp(FirebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app);
+const db = getFirestore(app,{ experimentalForceLongPolling: true });
 
 let analyticsInstance = null; 
 isSupported().then((supported) => {

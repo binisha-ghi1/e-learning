@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { auth, db, analytics } from "@/firebase/firebaseConfig";
+import {doc, getDoc, collection } from "firebase/firestore";
 import rec from "../../assets/images/rec.png";
 import tag from "../../assets/images/tag.png";
 import { PiBookOpenTextBold } from "react-icons/pi";
@@ -19,16 +20,17 @@ const MyProfile = () => {
         setUser(null);
       } else {
         setUser(currentUser);
-        
     
         try {
-          const userDoc = await db.collection("users").doc(currentUser.uid).get();
-          if (userDoc.exists) {
+          const userRef = doc(db, "users", currentUser.uid);
+          const userDoc = await getDoc(userRef);
+          if (userDoc.exists()) {
             setRole(userDoc.data().role || "student");
           }
         } catch (error) {
           console.error("Error fetching user role:", error);
         }
+
 
         const savedEnrolled = localStorage.getItem("enrolledCourses");
         const savedActive = localStorage.getItem("activeCourses");
